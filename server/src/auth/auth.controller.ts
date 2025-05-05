@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService, UserWithToken } from './auth.service';
 import { SignUpDto, LoginDto } from './dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -48,12 +48,13 @@ export class AuthController {
         _id: '507f1f77bcf86cd799439011',
         createdAt: '2024-05-04T10:00:00.000Z',
         updatedAt: '2024-05-04T10:00:00.000Z',
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
       },
     },
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 401, description: 'Email already exists' })
-  async signUp(@Body() signUpDto: SignUpDto) {
+  async signUp(@Body() signUpDto: SignUpDto): Promise<UserWithToken> {
     return this.authService.signUp(signUpDto);
   }
 

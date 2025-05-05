@@ -6,6 +6,9 @@ import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from '../users/schemas/user.schema';
 import { SignUpDto, LoginDto } from './dto/auth.dto';
 
+export interface UserWithToken extends Omit<User, 'password'> {
+  access_token: string;
+}
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,7 +16,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
+  async signUp(signUpDto: SignUpDto): Promise<UserWithToken> {
     const { name, email, password } = signUpDto;
 
     const existingUser = await this.userModel.findOne({ email }).exec();
@@ -30,8 +33,10 @@ export class AuthService {
     });
 
     await user.save();
+    // generate access token after successful signup
+    const accessToken = this.jwtService.sign({ email, sub: user._id });
 
-    return user;
+    return { ...user, access_token: accessToken };
   }
 
   async login(loginDto: LoginDto) {

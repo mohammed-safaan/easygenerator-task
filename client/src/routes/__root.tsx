@@ -1,7 +1,8 @@
 import { ModeToggle } from '@/components/mode-toggle'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { Outlet, createRootRoute, redirect } from '@tanstack/react-router'
+import { Toaster } from 'sonner'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Route = createRootRoute({
   component: () => (
@@ -10,7 +11,21 @@ export const Route = createRootRoute({
         <ModeToggle />
       </div>
       <Outlet />
-      <TanStackRouterDevtools />
+      <Toaster />
     </ThemeProvider>
   ),
+
+  beforeLoad: ({ location }) => {
+    const { isAuthenticated } = useAuth.getState()
+
+    // If not authenticated and trying to access protected routes
+    if (!isAuthenticated && location.pathname === '/') {
+      throw redirect({ to: '/login' })
+    }
+
+    // If authenticated and trying to access auth routes
+    if (isAuthenticated && ['/login', '/signup'].includes(location.pathname)) {
+      throw redirect({ to: '/' })
+    }
+  },
 })
