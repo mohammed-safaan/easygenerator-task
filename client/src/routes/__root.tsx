@@ -1,7 +1,7 @@
-import { ModeToggle } from '@/components/mode-toggle'
-import { ThemeProvider } from '@/components/theme-provider'
 import { Outlet, createRootRoute, redirect } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
+import { ModeToggle } from '@/components/mode-toggle'
+import { ThemeProvider } from '@/components/theme-provider'
 import { useAuth } from '@/hooks/useAuth'
 
 export const Route = createRootRoute({

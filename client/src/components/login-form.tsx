@@ -1,9 +1,8 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { Link, useNavigate } from '@tanstack/react-router'
+import type * as z from 'zod'
 import {
   Form,
   FormControl,
@@ -14,7 +13,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { PasswordInput } from '@/components/ui/password-input'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
 import { loginSchema } from '@/schemas/auth.schema'
 

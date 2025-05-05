@@ -12,7 +12,7 @@ interface HeroProps {
     text: string
     url: string
   }
-  integrations?: Integration[][]
+  integrations?: Array<Array<Integration>>
 }
 
 const Hero = ({

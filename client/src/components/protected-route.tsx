@@ -1,8 +1,8 @@
-import { useAuth } from '@/hooks/useAuth'
-import { authApi } from '@/services/api'
 import { Loader2 } from 'lucide-react'
 import { Navigate, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { authApi } from '@/services/api'
+import { useAuth } from '@/hooks/useAuth'
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, logout } = useAuth()

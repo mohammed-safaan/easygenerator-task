@@ -1,10 +1,10 @@
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { GalleryVerticalEnd, LogOutIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Hero } from '@/components/hero'
 import { ProtectedRoute } from '@/components/protected-route'
 import { Button } from '@/components/ui/button'
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { GalleryVerticalEnd, LogOutIcon } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
-import { toast } from 'sonner'
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -28,8 +28,8 @@ function RouteComponent() {
   return (
     <ProtectedRoute>
       <div className="container mx-auto">
-        <Button 
-          onClick={handleLogout} 
+        <Button
+          onClick={handleLogout}
           className="fixed top-3 right-20 z-50 flex items-center justify-end gap-2"
         >
           <LogOutIcon className="h-4 w-4" />
