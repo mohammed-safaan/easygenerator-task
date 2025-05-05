@@ -1,86 +1,52 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { GalleryVerticalEnd } from 'lucide-react'
-
-import welcome from '../Welcome.svg'
+import { Hero } from '@/components/hero'
+import { ProtectedRoute } from '@/components/protected-route'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { GalleryVerticalEnd, LogOutIcon } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/')({
-  component: SignUp,
+  component: RouteComponent,
 })
 
-function SignUp() {
+function RouteComponent() {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      toast.success('Logged out successfully')
+      navigate({ to: '/login' })
+    } catch (error) {
+      console.error('Logout error:', error)
+      toast.error('Failed to logout')
+    }
+  }
+
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src={welcome}
-          alt="an illustration of a captin with waving hands"
-          className="h-full w-full object-cover"
-        />
-      </div>
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <Link to="/" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
-            </div>
-            Easygenerator Inc.
-          </Link>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <form className={cn('flex flex-col gap-6')}>
-              <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Create your account</h1>
-                <p className="text-balance text-sm text-muted-foreground">
-                  Enter your email below to create an account
-                </p>
+    <ProtectedRoute>
+      <div className="container mx-auto">
+        <Button 
+          onClick={handleLogout} 
+          className="fixed top-3 right-20 z-50 flex items-center justify-end gap-2"
+        >
+          <LogOutIcon className="h-4 w-4" />
+          Logout
+        </Button>
+        <div className="flex flex-col gap-4 py-6 md:py-10">
+          <div className="flex justify-center gap-2 md:justify-start">
+            <Link to="/" className="flex items-center gap-2 font-medium">
+              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                <GalleryVerticalEnd className="size-4" />
               </div>
-              <div className="grid gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="jhon doe"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                  </div>
-                  <Input id="password" type="password" required />
-                </div>
-                <Button type="submit" className="w-full">
-                  Sign up
-                </Button>
-              </div>
-              <div className="text-center text-sm">
-                You have an account?{' '}
-                <Link
-                  to="/login"
-                  className="underline underline-offset-4 [&.active]:font-bold"
-                >
-                  Login
-                </Link>
-              </div>
-            </form>
+              Easygenerator Inc.
+            </Link>
           </div>
         </div>
+        <Hero />
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }
