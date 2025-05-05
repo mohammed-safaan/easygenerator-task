@@ -65,7 +65,7 @@ export default function SignupForm() {
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="min-h-[80px]">
+            <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
@@ -83,7 +83,7 @@ export default function SignupForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="min-h-[80px]">
+            <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
@@ -102,7 +102,7 @@ export default function SignupForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem className="min-h-[80px]">
+            <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <PasswordInput
